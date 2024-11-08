@@ -2,8 +2,10 @@ import headerIcon from "../../assets/icons/header_icon.svg";
 import { PiNotepadBold } from "react-icons/pi";
 import { FaRegHeart } from "react-icons/fa";
 import { IoPersonOutline } from "react-icons/io5";
+import { FC } from "react";
+import { Link } from "react-router-dom";
 
-const Header = () => {
+const Header:FC = () => {
   return (
     <div className="flex items-center justify-between container max-w-[1440px] mx-auto py-[33px] bg-[white]">
       <ul>
@@ -23,7 +25,7 @@ const Header = () => {
         <li className="flex items-center gap-5">
           <PiNotepadBold size={24} />
           <FaRegHeart size={24} />
-          <IoPersonOutline size={24} />
+         <Link to="/login"> <IoPersonOutline size={24} /></Link>
         </li>
         <li>
           <select id="languages" className="p-3 bg-[#f3f3f3] rounded-md">
