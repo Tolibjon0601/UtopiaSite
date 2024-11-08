@@ -1,20 +1,21 @@
 import { TbPhone, TbUser, TbLock } from "react-icons/tb";
 import { FiEye, FiEyeOff, FiCheck } from "react-icons/fi";
 import React, { useState } from "react";
-import FormImg from
+
 const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-orange-400">
-      <div className="bg-white rounded-lg shadow-md p-8 w-full max-w-md relative">
+    <div className="flex items-center justify-center min-h-screen pt-[110px] bg-[#FCA311]">
+      <div className="bg-[white] rounded-b-[25px] shadow-lg p-16 w-full max-w-[478px] relative">
 
-        <div
-          className="absolute top-0 left-0 w-full h-16 bg-orange-400 rounded-t-lg"
-          style={{ clipPath: "ellipse(70% 100% at 50% 0)" }}
-        ></div>
+        <div><span className="block w-full bg-[#FDB541] top-[-91px] outline-none left-0 h-[91px] absolute rounded-t-[25px]"></span></div>
+        <div className="absolute top-0 left-0 w-full">
+
+          <img src="./loginImg.svg" alt="" />
+        </div>
 
         <div className="relative mt-8">
           <div className="text-textcolor hover:text-secondary">
@@ -28,7 +29,7 @@ const LoginPage: React.FC = () => {
               <input
                 type="text"
                 id="phone"
-                placeholder="+998 99 880 80-80 "
+                placeholder="+998 90 000 00-07 "
                 className="block w-full border-b focus:outline-none text-sm px-2 py-1"
               />
               <FiCheck
