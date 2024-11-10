@@ -12,7 +12,7 @@ const MainLayout = () => {
 				<Outlet />
 			</div>
       {/* <Footer /> */}
-      {location.pathname !== "/login" && location.pathname !== "/authPage" && <Footer />}
+      {location.pathname !== "/login" && location.pathname !== "/auth" && <Footer />}
       {/* {location.pathname !== "/auth" && location.pathname !== "/AuthPage" && <Footer />} */}
 
     </div></>

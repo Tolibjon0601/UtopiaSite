@@ -2,15 +2,19 @@ import headerIcon from "../../assets/icons/header_icon.svg";
 import { PiNotepadBold } from "react-icons/pi";
 import { FaRegHeart } from "react-icons/fa";
 import { IoPersonOutline } from "react-icons/io5";
-import { FC } from "react";
+import { FC ,useContext} from "react";
 import { Link } from "react-router-dom";
+import { IoPerson } from "react-icons/io5";
+import { AuthContext } from './../../pages/authcontext/authcontext';
 
-const Header:FC = () => {
+const Header: FC = () => {
+  const { isLogin, logout } = useContext(AuthContext);
+
   return (
     <div className="flex items-center justify-between container max-w-[1440px] mx-auto py-[33px] bg-[white]">
       <ul>
         <li>
-          <img src={headerIcon} alt="img" />
+          <Link to="/"> <img src={headerIcon} alt="img" /></Link>
         </li>
       </ul>
       <ul className="flex gap-[70px] items-center">
@@ -25,7 +29,11 @@ const Header:FC = () => {
         <li className="flex items-center gap-5">
           <PiNotepadBold size={24} />
           <FaRegHeart size={24} />
-         <Link to="/login"> <IoPersonOutline size={24} /></Link>
+{isLogin?(
+<button onClick={logout}><IoPerson size={24} />
+</button>
+):(<Link to="/login"> <IoPersonOutline size={24} /></Link>)}
+
         </li>
         <li>
           <select id="languages" className="p-3 bg-[#f3f3f3] rounded-md">
