@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-function useFetchData(url) {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+function useFetchData<T>(url: string) {
+  const [data, setData] = useState<T | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -13,9 +13,9 @@ function useFetchData(url) {
         if (!res.ok) {
           throw new Error("Failed to fetch data");
         }
-        const result = await res.json();
+        const result: T = await res.json();
         setData(result);
-      } catch (err) {
+      } catch (err: any) {
         setError(err.message || "Fetching data failed");
         toast.error(err.message || "Fetching data failed");
       } finally {

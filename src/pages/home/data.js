@@ -1,53 +1,32 @@
+<button onClick={toggleFavorite}>
+{isFavorite ? (
+  <IoHeartSharp size={26} className="text-red-500" />
+) : (
+  <IoHeartOutline size={26} />
+)}
+</button>
+ const [thumbsSwiper, setThumbsSwiper] = useState(null);
+ const { id } = useParams();
+ const navigate = useNavigate();
+ const setTicket = useStore((state) => state.setTicket);
 
-const products=[
-{
-  id: 1,
-  img: "/image/item_img_1.png",
-  isLiked: false,
-  title: "Продается Hi-Tech пентхаус",
-  price:"$ 750,000"
+ const { data, loading } = useFetchData(
+   `https://66ceca18901aab24841f8da1.mockapi.io/api/ecomerce/${id}`
+ );
 
-},
-{
-  id: 2,
-  img: "/image/item_img_2.png",
-  isLiked: false,
-  title: "Продается вилла",
-  price:"$ 1,895,000"
+ const [isFavorite, setIsFavorite] = useState(false);
 
-},
-{
-  id: 3,
-  img: "/image/item_img_3.png",
-  isLiked: false,
-  title: "Продается коттедж",
-  price:"$ 310,000"
+ useEffect(() => {
+   const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+   setIsFavorite(favorites.includes(id));
+ }, [id]);
 
-},
-{
-  id: 4,
-  img: "/image/item_img_4.png",
-  isLiked: false,
-  title: "Продается коттедж",
-  price:"$ 80,000"
+ const toggleFavorite = () => {
+   const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+   const updatedFavorites = isFavorite
+     ? favorites.filter((favId: string) => favId !== id)
+     : [...favorites, id];
 
-},
-{
-  id: 5,
-  img: "/image/item_img_5.png",
-  isLiked: false,
-  title: "Продается коттедж",
-  price:"$ 450,000"
-
-},
-{
-  id: 6,
-  img: "/image/item_img_6.png",
-  isLiked: false,
-  title: "Продается коттедж",
-  price:"$ 420,000"
-
-},
-
-]
-export default products;
+   localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+   setIsFavorite(!isFavorite);
+ };

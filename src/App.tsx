@@ -3,9 +3,18 @@ import MainLayout from "./layouts/layouts"
 import HomePage from "./pages/home/home"
 import LoginPage from "./pages/login/login"
 import AuthPage from "./pages/auth/auth"
-import AuthContextProvider from "./pages/authcontext/authcontext"
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import SinglePage from './pages/singlepage/singlePage';
+import FavouritePage from "./pages/favouritePage"
+import {  AuthProvider } from './pages/authcontext/authcontext';
+import { Provider } from "react-redux"
+import store from "./reducer/store"
+import Profile from "./pages/profile/profile"
+import FormPage from "./pages/formPage/formPage"
+
+const queryClient = new QueryClient();
 
 
 const router=createBrowserRouter([
@@ -16,6 +25,10 @@ children:[
 {index:true,element:<HomePage/>},
 {path:"login",element:<LoginPage/>},
 {path:"auth",element:<AuthPage/>},
+{ path: "product/:id", element: <SinglePage /> },
+{path:"favouritePage",element:<FavouritePage/>},
+{path:"profile",element:<Profile/>},
+{path:"formPage",element:<FormPage/>}
 ]
 }
 ])
@@ -24,10 +37,15 @@ function App() {
 
   return (
    <>
-	<AuthContextProvider>
+     <Provider store={store}>
+	<AuthProvider >
+  <QueryClientProvider client={queryClient}>
+
    <RouterProvider router={router} />
    <ToastContainer />
-   </AuthContextProvider>
+   </QueryClientProvider>
+   </AuthProvider>
+   </Provider>
    </>
   )
 }

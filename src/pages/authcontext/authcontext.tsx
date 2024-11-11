@@ -1,23 +1,45 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect, FC, ReactNode } from 'react';
 
-export const AuthContext = createContext();
-
-const AuthContextProvider = ({ children }) => {
-
-const logout=()=>{
- setIsLogin(false)
- localStorage.removeItem("token")
-  toast.success("tizimdan chiqildi")
+interface AuthContextProps {
+  isLogin: boolean;
+  login: (token: string) => void;
+  logout: () => void;
+  favoriteCount: number;
 }
-const login=(token)=>
-{
- setIsLogin(true)
- localStorage.setItem("token", token)
+
+export const AuthContext = createContext<AuthContextProps>({
+  isLogin: false,
+  login: () => {},
+  logout: () => {},
+  favoriteCount: 0,
+});
+
+interface AuthProviderProps {
+  children: ReactNode;
 }
-	const [isLogin, setIsLogin] = useState(Boolean(localStorage.getItem("token")));
-	return <AuthContext.Provider
-  value={{ login, logout,isLogin }}>{children}
-  </AuthContext.Provider>;
+
+export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [favoriteCount, setFavoriteCount] = useState<number>(0);
+
+  useEffect(() => {
+    const favorites = localStorage.getItem('favorites');
+    setFavoriteCount(favorites ? JSON.parse(favorites).length : 0);
+  }, []);
+
+  const login = (token: string) => {
+    setIsLogin(true);
+    localStorage.setItem('token', token);
+  };
+
+  const logout = () => {
+    setIsLogin(false);
+    localStorage.removeItem('token');
+  };
+
+  return (
+    <AuthContext.Provider value={{ isLogin, login, logout, favoriteCount }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
-
-export default AuthContextProvider;

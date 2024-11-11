@@ -1,84 +1,87 @@
 import { TbPhone, TbUser, TbLock } from "react-icons/tb";
 import { FiEye, FiEyeOff, FiCheck } from "react-icons/fi";
-import  { useState,useContext } from "react";
+import { useState, useContext, FormEvent } from "react";
 import InputMask from "react-input-mask";
 import { toast } from "react-toastify";
 import { AuthContext } from './../authcontext/authcontext';
 import { useNavigate } from "react-router";
 
+interface LoginFormData {
+  phoneNumber: string;
+  name: string;
+  password: string;
+  confirmPassword: string;
+  showPassword: boolean;
+  showConfirmPassword: boolean;
+}
+
 const LoginPage: React.FC = () => {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
 
-  const submitHandler = (evt) => {
+  const submitHandler = (evt: FormEvent<HTMLFormElement>): void => {
     evt.preventDefault();
 
     if (!phoneNumber || !name || !password || !confirmPassword) {
-      toast.error("Barcha maydonlarni to'ldiring");
+      toast.error("Maydonlar hammasi to'ldirilishi kerak!");
       return;
     }
     if (password !== confirmPassword) {
-      toast.error("Parol va Parolni tasdiqlash mos emas");
+      toast.error("Parol va  tasdiqlash paroli bir-biriga mos emas");
       return;
     }
 
-    fetch('https://fakestoreapi.com/auth/login',{
-			method: "POST",
-			body: JSON.stringify({
-				username: "mor_2314",
-				password: "83r5^_",
-			}),
-			headers: {
-				"Content-Type": "application/json",
-			},
-		})
-			.then((res) => {
-				if (!res.ok) {
-					throw new Error("Login qilishda xatolik");
-				}
-				return res.json();
-			})
-			.then((json) => {
-				toast.success("Tizimga muvaffaqiyatli kirildi!");
-				login(json.token);
-				navigate("/auth");
-			})
-			.catch((err) => {
-				toast.error(err.message);
-			});
-    toast.success("Tizimga muvaffaqiyatli kirildi!");
+    fetch('https://fakestoreapi.com/auth/login', {
+      method: "POST",
+      body: JSON.stringify({
+        username: "mor_2314",
+        password: "83r5^_",
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Login qilishda xatolik");
+        }
+        return res.json();
+      })
+      .then((json) => {
+        toast.success("Tizimga muvaffaqiyatli kirildi!");
+        login(json.token);
+        navigate("/auth");
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen pt-[110px] bg-[#FCA311]">
       <div className="bg-[white] rounded-b-[25px] shadow-lg p-16 w-full max-w-[478px] relative">
-        <div>
-          <span className="block w-full bg-[#FDB541] top-[-91px] outline-none left-0 h-[91px] absolute rounded-t-[25px]"></span>
-        </div>
+        <span className="block w-full bg-[#FDB541] top-[-91px] outline-none left-0 h-[91px] absolute rounded-t-[25px]"></span>
         <div className="absolute top-0 left-0 w-full">
-          <img src="./loginImg.svg" alt="" />
+          <img src="./loginImg.svg" alt="Login Illustration" />
         </div>
 
         <form onSubmit={submitHandler} className="relative mt-8">
           <div className="text-textcolor hover:text-secondary">
-            <div className="flex items-center ">
-              <TbPhone size={24} className=" mr-2" />
+            <div className="flex items-center">
+              <TbPhone size={24} className="mr-2" />
               <label htmlFor="phone" className="text-xs font-bold mb-2">
                 НОМЕР ТЕЛЕФОНА
               </label>
             </div>
             <div className="relative mb-6">
-              <FiCheck
-                size={20}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-green-500"
-              />
+              <FiCheck size={20} className="absolute right-2 top-1/2 transform -translate-y-1/2 text-green-500" />
               <InputMask
                 mask="+999-99-999-99-99"
                 placeholder="+998 99 880 80-80"
@@ -97,8 +100,8 @@ const LoginPage: React.FC = () => {
 
           <div className="text-textcolor hover:text-secondary">
             <div className="flex items-center mb-4">
-              <TbUser size={24} className=" mr-2" />
-              <label htmlFor="name" className="text-xs ">
+              <TbUser size={24} className="mr-2" />
+              <label htmlFor="name" className="text-xs">
                 ИМЯ
               </label>
             </div>

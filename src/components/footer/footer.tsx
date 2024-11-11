@@ -8,7 +8,7 @@ import { TbBrandFacebook } from "react-icons/tb";
 
 const Footer = () => {
   return (
-    <div className="flex pt-[50px] justify-around">
+    <div className="flex pt-[50px] justify-around bg-[white]">
       <ul>
         <li>
 
